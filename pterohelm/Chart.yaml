@@ -1,0 +1,15 @@
+apiVersion: v2
+name: pterohelm
+description: A Helm chart for pterodactyl.io
+type: application
+version: 0.1.0
+appVersion: "v1.10.4"
+dependencies:
+  - name: mariadb
+    version: "11.3.5"
+    condition: mariadb.enabled
+    repository: "https://charts.bitnami.com/bitnami"
+  - name: redis
+    version: "17.3.11"
+    condition: redis.enabled
+    repository: "https://charts.bitnami.com/bitnami"

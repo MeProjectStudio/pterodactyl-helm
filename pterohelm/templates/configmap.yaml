@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  APP_URL: {{ .Values.appConfig.url }}
+  APP_ENV: {{ .Values.appConfig.env }}
+  APP_DEBUG: {{ .Values.appConfig.debug | quote }}
+  APP_THEME: {{ .Values.appConfig.theme }}
+  APP_TIMEZONE: {{ .Values.appConfig.timezone }}
+  APP_CLEAR_TASKLOG: {{ .Values.appConfig.clearTaskLog | quote }}
+  APP_DELETE_MINUTES: {{ .Values.appConfig.deleteMinutes | quote }}
+  APP_ENVIRONMENT_ONLY: "true"
+  LOG_CHANNEL: {{ .Values.appConfig.logChannel }}
+  APP_LOCALE: {{ .Values.appConfig.locale }}
+  APP_BACKUP_DRIVER: {{ .Values.appConfig.backupDriver }}
+  AWS_DEFAULT_REGION: {{ .Values.appConfig.s3.region }}
+  AWS_BACKUPS_BUCKET: {{ .Values.appConfig.s3.bucket }}
+  {{- if .Values.mariadb.enabled }}
+  DB_HOST: {{ .Release.Name }}-mariadb
+  {{- else }}
+  DB_HOST: {{ .Values.mariadb.auth.host | quote }}
+  {{- end }}
+  DB_PORT: {{ .Values.mariadb.auth.port | quote }}
+  DB_DATABASE: {{ .Values.mariadb.auth.database }}
+  DB_USERNAME: {{ .Values.mariadb.auth.username }}
+  DB_PASSWORD: {{ .Values.mariadb.auth.password }}
+  MAIL_DRIVER: {{ .Values.appConfig.mail.driver }}
+  MAIL_HOST: {{ .Values.appConfig.mail.host }}
+  MAIL_PORT: {{ .Values.appConfig.mail.port | quote }}
+  MAIL_USERNAME: {{ .Values.appConfig.mail.username }}
+  MAIL_PASSWORD: {{ .Values.appConfig.mail.password }}
+  MAIL_ENCRYPTION: {{ .Values.appConfig.mail.encryption }}
+  MAIL_FROM: {{ .Values.appConfig.mail.from }}
+  QUEUE_HIGH: {{ .Values.appConfig.queue.high }} 
+  QUEUE_STANDARD: {{ .Values.appConfig.queue.standart }} 
+  QUEUE_LOW: {{ .Values.appConfig.queue.low }} 
+  APP_SERVICE_AUTHOR: {{ .Values.appConfig.queue.standart }} 
+  CACHE_DRIVER: {{ .Values.appConfig.cacheDriver }} 
+  SESSION_DRIVER: {{ .Values.appConfig.sessionDriver }}  
+  QUEUE_CONNECTION: {{ .Values.appConfig.queueConnection }}
+  {{- if .Values.redis.enabled }}
+  REDIS_HOST: {{ .Release.Name }}-redis-master
+  {{- else }}
+  REDIS_HOST: {{ .Values.redis.auth.host | quote }}
+  {{- end }}
+  REDIS_PORT: {{ .Values.redis.auth.port | quote }}
+  REDIS_PASSWORD: {{ .Values.redis.auth.password }}
+  PTERODACTYL_FILES_MAX_EDIT_SIZE: {{ .Values.appConfig.maxFilesEditSize | quote }}
+  TRUSTED_PROXIES: {{ .Values.appConfig.trustedProxies | quote }}
